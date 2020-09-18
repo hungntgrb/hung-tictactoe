@@ -1,5 +1,9 @@
 import React from "react";
 
 export default function Square(props) {
-  return <div className="square">{props.icon}</div>;
+  return (
+    <div className="square" onClick={props.onClick}>
+      {props.icon}
+    </div>
+  );
 }
