@@ -37,9 +37,19 @@ function Game() {
     }
   }, [board]);
 
+  const resetGame = () => {
+    setBoard(Array(9).fill(null));
+    setGameOver(false);
+    setXTurn(true);
+    setWinner("");
+  };
+
   return (
     <>
       <Info infos={{ xTurn, gameOver, winner }} />
+      <button className="reset" onClick={resetGame}>
+        Restart
+      </button>
       <XTurnContext.Provider value={handleClick}>
         <Board board={board} />
       </XTurnContext.Provider>

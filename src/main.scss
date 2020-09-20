@@ -15,6 +15,9 @@ body {
   display: grid;
   place-content: center;
 }
+#root {
+  width: 100%;
+}
 .info {
   margin-bottom: 1rem;
   h1 {
@@ -23,8 +26,21 @@ body {
 }
 
 .board {
+  max-width: 600px;
   display: grid;
-  grid-template-columns: repeat(3, 180px);
+  grid-template-columns: repeat(3, 1fr);
+}
+button.reset {
+  display: block;
+  padding: 0.5rem 1rem;
+  margin: 1rem auto;
+  font-weight: bold;
+  background-color: #333;
+  color: #eee;
+  border: none;
+}
+button:focus {
+  outline: none;
 }
 .square {
   width: 30vw;
@@ -35,7 +51,7 @@ body {
   border: 1px solid $brown;
   display: grid;
   place-content: center;
-  font-size: 6rem;
+  font-size: 5rem;
   font-weight: bold;
   margin-bottom: -1px;
   margin-right: -1px;
