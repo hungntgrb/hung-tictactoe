@@ -1,42 +1,76 @@
 import "./main.scss";
 
-import React, { Component } from "react";
+import React, { useState, createContext, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Board from "./components/Board";
 
-export default class Game extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      board: new Array(9).fill(null),
-      xTurn: true,
-      gameOver: false,
-    };
-    this.handleSquareClick = this.handleSquareClick.bind(this);
-  }
+export const XTurnContext = createContext();
 
-  handleSquareClick(i) {
-    let squares = this.state.board.slice();
-    if (squares.every((x) => x !== null)) {
-      this.setState({ gameOver: true });
-    }
-    if (squares[i]) {
+function Game() {
+  const [gameOver, setGameOver] = useState(false);
+  const [xTurn, setXTurn] = useState(true);
+  const [board, setBoard] = useState(Array(9).fill(null));
+  const [winner, setWinner] = useState("");
+
+  const handleClick = (e, pos) => {
+    const newBoard = board.slice();
+    if (gameOver || board[pos]) {
       return;
     }
-    squares[i] = this.state.xTurn ? "X" : "O";
-    this.setState({ board: squares, xTurn: !this.state.xTurn });
-  }
+    newBoard[pos] = xTurn ? "X" : "O";
+    setBoard(newBoard);
+    setXTurn((prev) => !prev);
+  };
 
-  render() {
-    return (
-      <div>
-        <Board
-          onClick={(i) => this.handleSquareClick(i)}
-          board={this.state.board}
-        />
-      </div>
-    );
+  const everyCellIsFull = () => {
+    return board.every((val) => val !== null);
+  };
+
+  useEffect(() => {
+    const w = checkWinner(board);
+    if (w) {
+      setWinner(w);
+      setGameOver(true);
+    } else if (everyCellIsFull()) {
+      setGameOver(true);
+    }
+  }, [board]);
+
+  return (
+    <>
+      <h1>{xTurn ? "X" : "O"}'s turn</h1>
+      {gameOver && (
+        <>
+          <h1>Game Over</h1>
+          <h1>{winner ? winner + " wins!" : "Draw!"}</h1>
+        </>
+      )}
+      <XTurnContext.Provider value={handleClick}>
+        <Board board={board} />
+      </XTurnContext.Provider>
+    </>
+  );
+}
+
+function checkWinner(board) {
+  const lines = [
+    [0, 1, 2],
+    [3, 4, 5],
+    [6, 7, 8],
+    [0, 3, 6],
+    [1, 4, 7],
+    [2, 5, 8],
+    [0, 4, 8],
+    [2, 4, 6],
+  ];
+
+  for (let line of lines) {
+    const [c1, c2, c3] = line;
+    if (board[c1] && board[c2] === board[c1] && board[c3] === board[c1]) {
+      return board[c1];
+    }
   }
+  return "";
 }
 
 ReactDOM.render(<Game />, document.getElementById("root"));
