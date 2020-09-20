@@ -15,6 +15,13 @@ body {
   display: grid;
   place-content: center;
 }
+.info {
+  margin-bottom: 1rem;
+  h1 {
+    text-align: center;
+  }
+}
+
 .board {
   display: grid;
   grid-template-columns: repeat(3, 180px);
@@ -32,4 +39,22 @@ body {
   font-weight: bold;
   margin-bottom: -1px;
   margin-right: -1px;
+}
+.x {
+  color: rgb(12, 25, 64);
+}
+.o {
+  color: rgb(138, 21, 21);
+}
+
+footer {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: rgb(255, 255, 111);
+  h3 {
+    text-align: center;
+    color: rgb(12, 25, 64);
+    font-family: cursive;
+    font-weight: bold;
+  }
 }

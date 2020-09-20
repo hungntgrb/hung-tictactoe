@@ -3,6 +3,7 @@ import "./main.scss";
 import React, { useState, createContext, useEffect } from "react";
 import ReactDOM from "react-dom";
 import Board from "./components/Board";
+import Info from "./components/Info";
 
 export const XTurnContext = createContext();
 
@@ -38,13 +39,7 @@ function Game() {
 
   return (
     <>
-      <h1>{xTurn ? "X" : "O"}'s turn</h1>
-      {gameOver && (
-        <>
-          <h1>Game Over</h1>
-          <h1>{winner ? winner + " wins!" : "Draw!"}</h1>
-        </>
-      )}
+      <Info infos={{ xTurn, gameOver, winner }} />
       <XTurnContext.Provider value={handleClick}>
         <Board board={board} />
       </XTurnContext.Provider>
